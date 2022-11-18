@@ -52,7 +52,7 @@ pentamap = [[1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
 
-colours = np.array([[0, 0, 0], [200, 20, 100]])
+
 
 if choice ==1:
     game_map = game_map_blinker
@@ -63,7 +63,9 @@ elif choice == 3:
 else:
     game_map=size_map(size,size)
     game_map = pop_map(game_map)
+
 pg.init()
+colours = np.array([[0, 0, 0], [200, 20, 100]])
 flags = pg.SCALED | pg.FULLSCREEN
 screen = pg.display.set_mode((1920, 1080), flags)
 clock = pg.time.Clock()
@@ -87,12 +89,14 @@ while True:
     surface = pg.transform.scale(surface, (900, 900))
 
     text_surface = my_font.render(population_string,False,(250,250,250))
-    surface.blit(text_surface,(0,0))
-    screen.blit(surface,(0,40))
+    screen.fill("black")
+    screen.blit(text_surface, (0, 0))
+    screen.blit(surface, (0, 40))
+
     pg.display.flip()
 
 
-    clock.tick(999)
+    clock.tick(10)
     if speed != 0:
         time.sleep(speed)
 
@@ -100,4 +104,5 @@ while True:
     lifecyclecounter += 1
     lifecycle.append(lifecyclecounter)
     game_map = update_board(game_map, one_lifetime(game_map))
+    print(game_map)
 
