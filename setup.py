@@ -1,17 +1,12 @@
 import random
-import time
-
-
-def size_map(row: int, col: int):  # only use same number for eahc one xDd
+def size_map(row: int, col: int):
     map = [[0 for col in range(col)] for row in range(row)]
 
     return map
-
-
 def pop_map(map):  # populates map
     for row in range(len(map)):
         for col in range(len(map[row])):
-            x = random.randrange(1,5,1)
+            x = random.randrange(1,5,1) #controls population density
 
             if x == 1:
                 map[row][col] = 1  # live cell
@@ -32,21 +27,6 @@ def display_map(map):
 
 def apply_rule(map, y, x) -> int:
     neighbours = 0
-    flagxp = False  # flags so we dont go out of index range
-    flagxm = False
-    flagyp = False
-    flagym = False
-    lenM = len(map) - 1  # -1 cause we indexing
-
-    if x + 1 > lenM:
-        flagxp = True
-    if x - 1 < 0:
-        flagxm = True
-    if y + 1 > lenM:
-        flagyp = True
-    if y - 1 < 0:
-        flagym = True
-
     if map[y + 1][x + 1] == 1:
         neighbours += 1
 
@@ -72,14 +52,6 @@ def apply_rule(map, y, x) -> int:
         neighbours += 1
 
     return neighbours
-
-
-test_map = [[0, 0, 0, 0, 0],  # should be a blinker
-            [0, 0, 1, 0, 0],
-            [0, 0, 1, 0, 0],
-            [0, 0, 1, 0, 0],
-            [0, 0, 0, 0, 0]]
-
 
 def one_lifetime(map):
     pointerx: int = 0
@@ -115,7 +87,7 @@ def one_lifetime(map):
 
 # first tuple from one_lifetime is new_cell, second is dead ones
 def update_board(map: list[list], update: tuple) -> list[list]:
-    (new_cells, dead_cells) = update
+    (new_cells, dead_cells) = update #unpacks tuple
     len_dead = (int(len(dead_cells)))
     for i in range(0, len(new_cells), 2):
         map[new_cells[i]][new_cells[i + 1]] = 1
