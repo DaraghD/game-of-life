@@ -4,12 +4,9 @@ import os
 import pygame as pg
 import numpy as np
 
-pg.init()
-flags = pg.FULLSCREEN | pg.SCALED
-screen = pg.display.set_mode((1920, 1080), flags)
-clock = pg.time.Clock()
-
-
+print("Conways game of life,simple rules very interesting results\nmap will be randomly populated,\nalt tab to pygame window\n")
+size = int(input("enter the amount of tiles u want: "))
+speed = float(input("Enter amount of seconds in between each lifetime, recommended 0.5\n"))
 
 game_map_blinker \
     = [[0, 0, 0, 0, 0],
@@ -38,7 +35,7 @@ match input:
         game_map = size_map(20,20)
         game_map = pop_map(game_map)
 """
-colours = np.array([[120, 250, 90], [250, 90, 120]])
+colours = np.array([[0, 0, 0], [250, 90, 120]])
 
 # display_map(update_board(game_map,update))
 # game_map = size_map(30,30)
@@ -48,8 +45,15 @@ def clear():
         os.system('clear')
     else:
         os.system('cls')
-game_map = size_map(200,200)
+
+
+game_map=size_map(size,size)
 game_map = pop_map(game_map)
+
+pg.init()
+flags = pg.SCALED
+screen = pg.display.set_mode((1000, 1000), flags)
+clock = pg.time.Clock()
 
 
 while True:
@@ -58,11 +62,13 @@ while True:
             exit()
     game_map = np.array(game_map)
     surface = pg.surfarray.make_surface(colours[game_map])
-    surface = pg.transform.scale(surface, (800,800))
+    surface = pg.transform.scale(surface, (1200,1200))
     screen.fill((30,30,30))
     screen.blit(surface,(100,100))
     pg.display.update()
     clock.tick(60)
     display_map(game_map)
+    if speed != 0:
+        time.sleep(speed)
     game_map = update_board(game_map, one_lifetime(game_map))
     clear()
