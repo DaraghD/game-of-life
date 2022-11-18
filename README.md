@@ -8,4 +8,4 @@ command line version of conway game of life(used pygame for visuals) , you have 
 Graph of a simulation i ran showing population during life cycles
 ![Graph of a simulation i ran](https://user-images.githubusercontent.com/98656036/202593355-84ee12e9-b699-4e64-b886-32f1f56e4109.png)
 
-![Link to wiki](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life)
+[Link to wiki](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life)
