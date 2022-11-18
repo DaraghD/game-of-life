@@ -1,8 +1,13 @@
+import matplotlib
+
 from setup import *
 import time
 import os
 import pygame as pg
 import numpy as np
+from graph import *
+import matplotlib as plt
+
 
 print("Conways game of life,simple rules very interesting results\nmap will be randomly populated,\nalt tab to pygame window\n")
 size = int(input("enter the amount of tiles u want: "))
@@ -55,10 +60,13 @@ flags = pg.SCALED
 screen = pg.display.set_mode((1000, 1000), flags)
 clock = pg.time.Clock()
 
-
+populationlist = []
+lifecycle = []
+lifecyclecounter =0
 while True:
     for event in pg.event.get():
         if event.type == pg.QUIT:
+            graph_era(populationlist,lifecycle)
             exit()
     game_map = np.array(game_map)
     surface = pg.surfarray.make_surface(colours[game_map])
@@ -70,5 +78,10 @@ while True:
     display_map(game_map)
     if speed != 0:
         time.sleep(speed)
+    population = find_pop(game_map)
+    populationlist.append(population)
+    lifecyclecounter += 1
+    lifecycle.append(lifecyclecounter)
     game_map = update_board(game_map, one_lifetime(game_map))
+
     clear()

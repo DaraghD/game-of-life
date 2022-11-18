@@ -1,6 +1,7 @@
 import random
 import time
 
+
 def size_map(row: int, col: int):  # only use same number for eahc one xDd
     map = [[0 for col in range(col)] for row in range(row)]
     for row in range(row):
@@ -74,7 +75,7 @@ def apply_rule(map, y, x) -> int:
     return neighbours
 
 
-test_map = [[0, 0, 0, 0, 0], #should be a blinker
+test_map = [[0, 0, 0, 0, 0],  # should be a blinker
             [0, 0, 1, 0, 0],
             [0, 0, 1, 0, 0],
             [0, 0, 1, 0, 0],
@@ -82,13 +83,13 @@ test_map = [[0, 0, 0, 0, 0], #should be a blinker
 
 
 def one_lifetime(map):
-    pointerx:int = 0
-    pointery:int = 0
-    new_cell:list= []
-    dead_cell:list = []
-    len_end = len(map) -1
-    for row in range(0,len(map),1):
-        for col in range(0,len(map),1):
+    pointerx: int = 0
+    pointery: int = 0
+    new_cell: list = []
+    dead_cell: list = []
+    len_end = len(map) - 1
+    for row in range(0, len(map), 1):
+        for col in range(0, len(map), 1):
             try:
                 neighbours = apply_rule(map, row, col)
             except IndexError:
@@ -104,16 +105,27 @@ def one_lifetime(map):
                 new_cell.append(col)
     return new_cell, dead_cell
 
+
 # first tuple from one_lifetime is new_cell, second is dead ones
 def update_board(map: list[list], update: tuple) -> list[list]:
-    (new_cells,dead_cells) = update
+    (new_cells, dead_cells) = update
     len_dead = (int(len(dead_cells)))
     for i in range(0, len(new_cells), 2):
-        map[new_cells[i]][new_cells[i+1]] = 1
+        map[new_cells[i]][new_cells[i + 1]] = 1
     for j in range(0, len(dead_cells), 2):
         row = dead_cells[j]
-        col = dead_cells[j+1]
+        col = dead_cells[j + 1]
         map[row][col] = 0
     return map
 
 
+def find_pop(map) -> int:
+    population = 0
+    for row in range(0, len(map), 1):
+        for col in range(0, len(map), 1):
+            if map[row][col] == 1:
+                population += 1
+    return population
+
+
+print(find_pop(test_map))
