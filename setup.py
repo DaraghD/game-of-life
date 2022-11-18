@@ -4,16 +4,15 @@ import time
 
 def size_map(row: int, col: int):  # only use same number for eahc one xDd
     map = [[0 for col in range(col)] for row in range(row)]
-    for row in range(row):
-        for col in range(col):
-            map[row][col] = row * col
+
     return map
 
 
 def pop_map(map):  # populates map
     for row in range(len(map)):
         for col in range(len(map[row])):
-            x = random.randrange(1, 3)
+            x = random.randrange(1,5,1)
+
             if x == 1:
                 map[row][col] = 1  # live cell
             else:
@@ -93,18 +92,26 @@ def one_lifetime(map):
             try:
                 neighbours = apply_rule(map, row, col)
             except IndexError:
-                continue
-            if neighbours < 2:
                 dead_cell.append(row)
                 dead_cell.append(col)
-            if neighbours > 3:
-                dead_cell.append(row)
-                dead_cell.append(col)
-            if neighbours == 3:
-                new_cell.append(row)
-                new_cell.append(col)
-    return new_cell, dead_cell
 
+                continue
+            if map[row][col] == 0:
+                neighbours = apply_rule(map, row, col)
+                if neighbours == 3:
+                    new_cell.append(row)
+                    new_cell.append(col)
+            else:
+                if neighbours < 2:
+                    dead_cell.append(row)
+                    dead_cell.append(col)
+                if neighbours > 3:
+                    dead_cell.append(row)
+                    dead_cell.append(col)
+                #if neighbours == 3:
+                #    new_cell.append(row)
+                 #   new_cell.append(col)
+    return new_cell,dead_cell
 
 # first tuple from one_lifetime is new_cell, second is dead ones
 def update_board(map: list[list], update: tuple) -> list[list]:
@@ -113,9 +120,8 @@ def update_board(map: list[list], update: tuple) -> list[list]:
     for i in range(0, len(new_cells), 2):
         map[new_cells[i]][new_cells[i + 1]] = 1
     for j in range(0, len(dead_cells), 2):
-        row = dead_cells[j]
-        col = dead_cells[j + 1]
-        map[row][col] = 0
+        map[dead_cells[j]][dead_cells[j+1]] =0
+
     return map
 
 
@@ -128,4 +134,3 @@ def find_pop(map) -> int:
     return population
 
 
-print(find_pop(test_map))

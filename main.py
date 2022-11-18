@@ -1,5 +1,3 @@
-import matplotlib
-
 from setup import *
 import time
 import os
@@ -29,6 +27,28 @@ game_map_beacon = \
         [0, 0, 0, 1, 1, 0],
         [0, 0, 0, 0, 0, 0]
     ]
+
+test_map = [[1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1],
+            [1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1],
+            [1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1]]
+
 """
 input = input("1. blinker, 2.beacon, 3.random(20,20)\n")
 match input:
@@ -42,9 +62,9 @@ match input:
 """
 colours = np.array([[0, 0, 0], [250, 90, 120]])
 
-# display_map(update_board(game_map,update))
-# game_map = size_map(30,30)
-# game_map = pop_map(game_map)
+#display_map(update_board(game_map,update))
+
+
 def clear():
     if os.name == 'posix':
         os.system('clear')
@@ -53,10 +73,13 @@ def clear():
 
 
 game_map=size_map(size,size)
+#print(game_map)
 game_map = pop_map(game_map)
+#game_map = test_map
+
 
 pg.init()
-flags = pg.SCALED
+flags = pg.SCALED | pg.FULLSCREEN
 screen = pg.display.set_mode((1000, 1000), flags)
 clock = pg.time.Clock()
 
@@ -69,19 +92,23 @@ while True:
             graph_era(populationlist,lifecycle)
             exit()
     game_map = np.array(game_map)
-    surface = pg.surfarray.make_surface(colours[game_map])
-    surface = pg.transform.scale(surface, (1200,1200))
-    screen.fill((30,30,30))
-    screen.blit(surface,(100,100))
-    pg.display.update()
-    clock.tick(60)
-    display_map(game_map)
+
+    surface = pg.surfarray.make_surface(game_map)
+    surface = pg.transform.scale(surface, (1000,1000))
+    #screen.fill((30,30,30))
+    screen.blit(surface,(0,0))
+    pg.display.flip()
+
+
+    clock.tick(144)
     if speed != 0:
         time.sleep(speed)
+
     population = find_pop(game_map)
     populationlist.append(population)
     lifecyclecounter += 1
     lifecycle.append(lifecyclecounter)
+
     game_map = update_board(game_map, one_lifetime(game_map))
 
-    clear()
+    #clear()
