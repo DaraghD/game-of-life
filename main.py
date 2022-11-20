@@ -1,5 +1,3 @@
-import string
-
 from setup import *
 import time
 import pygame as pg

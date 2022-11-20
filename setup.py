@@ -1,9 +1,9 @@
 import random
-def size_map(row: int, col: int):
+def size_map(row: int, col: int) -> list[list]:
     map = [[0 for col in range(col)] for row in range(row)]
 
     return map
-def pop_map(map):  # populates map
+def pop_map(map)-> list[list]: # populates map
     for row in range(len(map)):
         for col in range(len(map[row])):
             x = random.randrange(1,5,1) #controls population density
@@ -53,12 +53,9 @@ def apply_rule(map, y, x) -> int:
 
     return neighbours
 
-def one_lifetime(map):
-    pointerx: int = 0
-    pointery: int = 0
+def one_lifetime(map)-> tuple:
     new_cell: list = []
     dead_cell: list = []
-    len_end = len(map) - 1
     for row in range(0, len(map), 1):
         for col in range(0, len(map), 1):
             try:
@@ -80,15 +77,11 @@ def one_lifetime(map):
                 if neighbours > 3:
                     dead_cell.append(row)
                     dead_cell.append(col)
-                #if neighbours == 3:
-                #    new_cell.append(row)
-                 #   new_cell.append(col)
     return new_cell,dead_cell
 
 # first tuple from one_lifetime is new_cell, second is dead ones
 def update_board(map: list[list], update: tuple) -> list[list]:
     (new_cells, dead_cells) = update #unpacks tuple
-    len_dead = (int(len(dead_cells)))
     for i in range(0, len(new_cells), 2):
         map[new_cells[i]][new_cells[i + 1]] = 1
     for j in range(0, len(dead_cells), 2):
