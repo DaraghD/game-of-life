@@ -71,12 +71,10 @@ def one_lifetime(map)-> tuple:
                     new_cell.append(row)
                     new_cell.append(col)
             else:
-                if neighbours < 2:
+                if neighbours < 2 or neighbours > 3:
                     dead_cell.append(row)
                     dead_cell.append(col)
-                if neighbours > 3:
-                    dead_cell.append(row)
-                    dead_cell.append(col)
+                    
     return new_cell,dead_cell
 
 # first tuple from one_lifetime is new_cell, second is dead ones
